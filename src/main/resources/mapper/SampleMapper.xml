@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mybatisbatch.sample.SampleMapper">
+
+    <select id="selectLastItemId" resultType="java.lang.String">
+        SELECT
+            order_id
+        FROM "ORDER"
+        ORDER BY order_id DESC
+        LIMIT 1
+
+    </select>
+
+    <select id="selectOrder" resultType="com.example.mybatisbatch.sample.Order">
+        SELECT
+               order_id
+             , product_id
+             , order_qty
+             , create_at
+        FROM "ORDER"
+        ORDER BY order_id ASC
+        LIMIT #{_skiprows}, #{_pagesize}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO TOTAL_ORDER_QTY(product_id, total_order_qty)
+        VALUES (#{productId}, #{totalOrderQty})
+    </insert>
+
+</mapper>

@@ -1,11 +1,20 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:log4jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MYSQL
     username: sa
     password:
-    driver-class-name: org.h2.Driver
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
   h2:
     console:
       enabled: true
       path: /test_db
 
+# MyBatis
+# mapper.xml 위치 지정
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  # model 프로퍼티 camel case 설정
+  configuration:
+    map-underscore-to-camel-case: true
+  # 패키지 명을 생략할 수 있도록 alias 설정
+  type-aliases-package: com.example.mybatisbatch.sample

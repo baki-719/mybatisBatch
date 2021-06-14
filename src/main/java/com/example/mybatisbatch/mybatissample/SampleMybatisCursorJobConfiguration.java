@@ -1,10 +1,11 @@
-package com.example.mybatisbatch.sample;
+package com.example.mybatisbatch.mybatissample;
 
+import com.example.mybatisbatch.dto.Order;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.batch.MyBatisPagingItemReader;
-import org.mybatis.spring.batch.builder.MyBatisPagingItemReaderBuilder;
+import org.mybatis.spring.batch.MyBatisCursorItemReader;
+import org.mybatis.spring.batch.builder.MyBatisCursorItemReaderBuilder;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -16,42 +17,40 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class SamplePagingJobConfiguration {
-
+public class SampleMybatisCursorJobConfiguration {
     private final SqlSessionFactory sqlSessionFactory;
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public Job job(){
-        return jobBuilderFactory.get("SamplePagingJob")
-                .start(step())
+    public Job sampleMybatisCursorJob(){
+        return jobBuilderFactory.get("SampleMybatisCursorJob")
+                .start(sampleMybatisCursorStep())
                 .build();
     }
 
     @Bean
-    public Step step(){
-        return stepBuilderFactory.get("SamplePagingStep")
+    public Step sampleMybatisCursorStep(){
+        return stepBuilderFactory.get("SampleMybatisCursorStep")
                 .<Order, Order>chunk(1000)
-                .reader(reader())
-                .writer(writer())
+                .reader(sampleMybatisCursorReader())
+                .writer(sampleMybatisCursorWriter())
                 .build();
     }
 
     @Bean
-    public MyBatisPagingItemReader<Order> reader() {
-        return new MyBatisPagingItemReaderBuilder<Order>()
+    public MyBatisCursorItemReader<Order> sampleMybatisCursorReader() {
+        return new MyBatisCursorItemReaderBuilder<Order>()
                 .sqlSessionFactory(sqlSessionFactory)
-                .pageSize(2)
                 .queryId("com.example.mybatisbatch.sample.SampleMapper.selectOrder")
                 .build();
     }
 
     @Bean
-    public ItemWriter<Order> writer() {
+    public ItemWriter<Order> sampleMybatisCursorWriter() {
         return list -> {
             for (Order temp : list) {
-                log.info("[Paging]writer : {}", temp);
+                log.info("[Cursor]writer : {}", temp);
             }
         };
     }

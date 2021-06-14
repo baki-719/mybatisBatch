@@ -1,4 +1,4 @@
-package com.example.mybatisbatch.sample;
+package com.example.mybatisbatch.dto;
 
 import lombok.*;
 
@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderQtyByProduct {
+public class Order {
 
     @Getter
     @Setter
-    private int summaryId;
+    private int orderId;
 
     @Getter
     @Setter
@@ -20,14 +20,9 @@ public class OrderQtyByProduct {
 
     @Getter
     @Setter
-    private int totalOrderQty;
+    private int orderQty;
 
     @Getter
     @Setter
     private LocalDateTime createAt;
-
-    public OrderQtyByProduct addCount() {
-        totalOrderQty++;
-        return this;
-    }
 }

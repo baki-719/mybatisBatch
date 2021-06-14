@@ -1,4 +1,4 @@
-package com.example.mybatisbatch.sample;
+package com.example.mybatisbatch.mybatissample;
 
 import org.apache.ibatis.annotations.Mapper;
 

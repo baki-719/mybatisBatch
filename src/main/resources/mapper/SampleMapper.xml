@@ -24,9 +24,9 @@
         LIMIT #{_skiprows}, #{_pagesize}
     </select>
 
-    <insert id="insert">
-        INSERT INTO TOTAL_ORDER_QTY(product_id, total_order_qty)
-        VALUES (#{productId}, #{totalOrderQty})
+    <insert id="insert" parameterType="com.example.mybatisbatch.dto.Delivery">
+        INSERT INTO DELIVERY(order_id, order_qty, delivery_type)
+        VALUES (#{orderId}, #{orderQty}, #{deliveryType})
     </insert>
 
 </mapper>

@@ -16,6 +16,7 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class SampleMybatisPagingJobConfiguration {
     @Bean
     public Step sampleMybatisPagingStep(){
         return stepBuilderFactory.get("SampleMybatisPagingStep")
-                .<Order, Delivery>chunk(1000)
+                .<Order, Order>chunk(1000)
                 .reader(sampleMybatisPagingReader())
                 .processor(sampleItemProcessor())
                 .writer(sampleMybatisPagingWriter())
@@ -56,15 +57,20 @@ public class SampleMybatisPagingJobConfiguration {
     }
 
     @Bean
-    public ItemProcessor<Order, Delivery> sampleItemProcessor() {
-        return Delivery::of;
+    public ItemProcessor<Order, Order> sampleItemProcessor() {
+        return item -> item;
     }
 
     @Bean
-    public MyBatisBatchItemWriter<Delivery> sampleMybatisPagingWriter() {
-        return new MyBatisBatchItemWriterBuilder<Delivery>()
+    public MyBatisBatchItemWriter<Order> sampleMybatisPagingWriter() {
+        return new MyBatisBatchItemWriterBuilder<Order>()
                 .sqlSessionFactory(sqlSessionFactory)
-                .statementId("com.example.mybatisbatch.mybatissample.SampleMapper.insert")
+                .statementId("com.example.mybatisbatch.mybatissample.SampleMapper.update")
+//                .itemToParameterConverter(orderDeliveryConverter())
                 .build();
+    }
+
+    private Converter<Order, Delivery> orderDeliveryConverter() {
+        return Delivery::of;
     }
 }

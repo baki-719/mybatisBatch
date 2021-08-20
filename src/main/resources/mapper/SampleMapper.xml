@@ -29,4 +29,10 @@
         VALUES (#{orderId}, #{orderQty}, #{deliveryType})
     </insert>
 
+    <update id="update" parameterType="com.example.mybatisbatch.dto.Order">
+        UPDATE "ORDER"
+        SET ORDER_QTY = #{orderQty}
+        WHERE 1=0
+    </update>
+
 </mapper>

@@ -23,3 +23,7 @@ INSERT INTO "ORDER" (product_id, order_qty) VALUES
 ('B', 12),
 ('G', 168),
 ('R', 14);
+--
+-- INSERT INTO "DELIVERY" (order_id, order_qty, delivery_type) VALUES
+-- ('A', 1, 'TYPE_A'),
+-- ('B', 2, 'TYPE_B');
